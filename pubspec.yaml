@@ -1,0 +1,42 @@
+name: checoloresono
+description: Che colore sono? Adesso lo posso sapere!
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  http: ^0.12.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  integration_test:
+    sdk: flutter
+flutter:
+
+ uses-material-design: true
+
+ fonts:
+  - family: Plex
+    fonts:
+      - asset: assets/fonts/IBMPlexSans-Bold.ttf
+        weight: 700
+      - asset: assets/fonts/IBMPlexSans-Regular.ttf
+        weight: 400
+      - asset: assets/fonts/IBMPlexSans-ExtraLight.ttf
+        weight: 200
+      - asset: assets/fonts/IBMPlexSans-Thin.ttf
+        weight: 100
+  - family: Computer Modern
+    fonts:
+      - asset: assets/fonts/Computer-Modern.ttf
+
+  
+  
+ 
