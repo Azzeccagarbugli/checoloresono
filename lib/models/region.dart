@@ -8,10 +8,17 @@ String regionToJson(Map<String, List<Region>> data) =>
     json.encode(Map.from(data).map((k, v) => MapEntry<String, dynamic>(
         k, List<dynamic>.from(v.map((x) => regionValues.reverse[x])))));
 
-enum Region { ROSSO, EMPTY }
+enum Region {
+  GIALLO,
+  ARANCIONE,
+  ROSSO,
+}
 
-final regionValues =
-    EnumValues({"\ud83d\udd34": Region.EMPTY, "rosso": Region.ROSSO});
+final regionValues = EnumValues({
+  "arancione": Region.ARANCIONE,
+  "giallo": Region.GIALLO,
+  "rosso": Region.ROSSO
+});
 
 class EnumValues<T> {
   Map<String, T> map;
