@@ -12,6 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
   http: ^0.12.2
+  sortedmap: ^0.4.2+1
 
 dev_dependencies:
   flutter_test:
