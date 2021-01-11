@@ -16,4 +16,4 @@ BorderRadius kBorderRadius = BorderRadius.circular(12);
 const Duration kDuration = Duration(milliseconds: 900);
 
 // Curve
-const Curve kCurve = Curves.easeInToLinear;
+const Curve kCurve = Curves.easeInOutCubic;

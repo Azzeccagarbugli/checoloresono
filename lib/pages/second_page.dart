@@ -1,30 +1,21 @@
 import 'package:checoloresono/common/constants.dart';
 import 'package:checoloresono/models/region.dart';
-import 'package:checoloresono/widgets/black_button.dart';
 import 'package:checoloresono/widgets/limit_container.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 class SecondPage extends StatelessWidget {
   const SecondPage({
     Key key,
-    @required int selectedRegion,
     @required Map<String, List<Region>> regions,
-    @required Animation<Offset> animationWaiting,
-    @required Function onPressedRadio,
     @required Function onPressedButton,
     @required bool toggleOpacity,
-  })  : _selectedRegion = selectedRegion,
-        _regions = regions,
-        _animationWaiting = animationWaiting,
-        _onPressedRadio = onPressedRadio,
+  })  : _regions = regions,
         _onPressedButton = onPressedButton,
         _toggleOpacity = toggleOpacity,
         super(key: key);
 
-  final int _selectedRegion;
   final Map<String, List<Region>> _regions;
-  final Animation<Offset> _animationWaiting;
-  final Function _onPressedRadio;
   final Function _onPressedButton;
   final bool _toggleOpacity;
 
@@ -39,62 +30,68 @@ class SecondPage extends StatelessWidget {
           children: [
             Positioned.fill(
               child: ListView.builder(
-                shrinkWrap: true,
-                itemBuilder: (_, index) => RadioListTile(
-                  value: index,
-                  groupValue: _selectedRegion,
-                  onChanged: (region) => _onPressedRadio(region),
-                  activeColor: Colors.black,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: kBorderRadius,
-                  ),
-                  title: Text(
-                    _regions.keys.elementAt(index),
-                    style: TextStyle(
-                      fontFamily: 'Plex',
+                itemBuilder: (_, index) => MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: GestureDetector(
+                    onTap: () => _onPressedButton(index),
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(
+                        vertical: kSpaceS,
+                        horizontal: kSpaceM,
+                      ),
+                      padding: const EdgeInsets.all(kSpaceS),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: kBorderRadius,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey[300],
+                            offset: Offset(1.5, 1.5),
+                            blurRadius: 15.0,
+                            spreadRadius: 1.5,
+                          ),
+                          BoxShadow(
+                            color: Colors.white70,
+                            offset: Offset(-1.5, -1.5),
+                            blurRadius: 15.0,
+                            spreadRadius: 1.5,
+                          ),
+                        ],
+                      ),
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundColor: Colors.black,
+                          child: Text(
+                            _regions.keys.elementAt(index)[0].toUpperCase(),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'Plex',
+                            ),
+                          ),
+                        ),
+                        trailing: Icon(
+                          Icons.lens,
+                          color: Colors.grey[200],
+                          size: 12,
+                        ),
+                        title: Row(
+                          children: [
+                            Text(
+                              _regions.keys.elementAt(index),
+                              style: TextStyle(
+                                fontFamily: 'Plex',
+                                color: Colors.black,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ),
                 itemCount: _regions.length,
               ),
             ),
-            Positioned(
-              left: 0,
-              bottom: kSpaceM,
-              right: 0,
-              child: SlideTransition(
-                position: _animationWaiting,
-                child: BlackButton(
-                  iconData: Icons.place_rounded,
-                  onPressed: () => _onPressedButton(),
-                  widget: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        _selectedRegion != -1
-                            ? 'Prosegui con: ${_regions.keys.elementAt(_selectedRegion)}'
-                                .toUpperCase()
-                            : '',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 0.9,
-                          fontFamily: 'Plex',
-                        ),
-                      ),
-                      Text(
-                        DateTime.now().toString(),
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w200,
-                          fontFamily: 'Plex',
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            )
           ],
         ),
       ),

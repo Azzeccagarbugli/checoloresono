@@ -34,8 +34,13 @@ class FirstPage extends StatelessWidget {
                 color: Colors.grey[800],
               ),
             ),
-            SizedBox(
+            Container(
+              margin: const EdgeInsets.symmetric(vertical: kSpaceS),
               height: kSpaceXS,
+              decoration: BoxDecoration(
+                color: Colors.grey[300],
+                borderRadius: kBorderRadius,
+              ),
             ),
             RichText(
               text: TextSpan(

@@ -39,12 +39,9 @@ class _HomePageState extends State<HomePage>
 
   Color _backgroundColor = Colors.grey[200];
 
-  Animation<Offset> _animationWaiting;
-  AnimationController _animationControllerWaiting;
-
-  int _selectedRegion = -1;
-
   Map<String, List<Region>> _regions;
+  String _selectedRegion;
+  int _selectedIndex = 0;
 
   bool _toggleOpacityFirstPage = true;
   bool _toggleOpacitySecondPage = true;
@@ -58,52 +55,20 @@ class _HomePageState extends State<HomePage>
     });
   }
 
-  Color _colorRegion(Region region) {
-    switch (region) {
-      case Region.ROSSO:
-        return Colors.red;
-      case Region.ARANCIONE:
-        return Colors.orange;
-      case Region.GIALLO:
-        return Colors.yellow[600];
-      default:
-        return Colors.transparent;
-    }
-  }
-
   @override
   void initState() {
     super.initState();
-
     _buildRegion();
-
-    _animationControllerWaiting = AnimationController(
-      vsync: this,
-      duration: kDuration,
-    );
-
-    _animationWaiting = Tween<Offset>(
-      begin: Offset(0.0, 2.0),
-      end: Offset(0.0, 0.0),
-    ).animate(
-      CurvedAnimation(
-        parent: _animationControllerWaiting,
-        curve: kCurve,
-      ),
-    );
   }
 
   @override
   void dispose() {
     _controller.dispose();
-    _animationControllerWaiting.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_selectedRegion != -1) _animationControllerWaiting.forward();
-
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: AnimatedContainer(
@@ -113,7 +78,6 @@ class _HomePageState extends State<HomePage>
           child: PageView(
             physics: NeverScrollableScrollPhysics(),
             controller: _controller,
-            scrollDirection: Axis.vertical,
             children: [
               FirstPage(
                 toggleOpacity: _toggleOpacityFirstPage,
@@ -125,31 +89,22 @@ class _HomePageState extends State<HomePage>
                 },
               ),
               SecondPage(
-                selectedRegion: _selectedRegion,
                 regions: _regions,
-                animationWaiting: _animationWaiting,
                 toggleOpacity: _toggleOpacitySecondPage,
-                onPressedButton: () {
+                onPressedButton: (index) {
                   setState(() {
                     _toggleOpacitySecondPage = !_toggleOpacitySecondPage;
-                    _backgroundColor = _colorRegion(
-                        _regions.values.elementAt(_selectedRegion).first);
+                    _selectedIndex = index;
+                    _selectedRegion = _regions.keys.elementAt(_selectedIndex);
+                    _backgroundColor =
+                        _regions.values.elementAt(_selectedIndex).first.color;
                   });
                   _controller.nextPage(duration: kDuration, curve: kCurve);
                 },
-                onPressedRadio: (reg) {
-                  setState(() {
-                    _selectedRegion = reg;
-                  });
-                },
               ),
               ThirdPage(
-                colorRegion: _selectedRegion != -1
-                    ? _regions.values.elementAt(_selectedRegion)[0].toString()
-                    : '',
-                nameRegion: _selectedRegion != -1
-                    ? _regions.keys.elementAt(_selectedRegion)
-                    : '',
+                colorRegion: _regions.values.elementAt(_selectedIndex).first,
+                nameRegion: _selectedRegion,
               ),
             ],
           ),
