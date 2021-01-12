@@ -89,20 +89,23 @@ class ThirdPage extends StatelessWidget {
             ),
             expandedHeight: 300,
           ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) {
-                final item = _list()[index];
+          SliverPadding(
+            padding: const EdgeInsets.only(bottom: kSpaceS),
+            sliver: SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  final item = _list()[index];
 
-                if (item is MainCard) {
-                  return item.buildMainCard(context);
-                } else {
-                  return item.buildLateralInformation(context);
-                }
-              },
-              childCount: _list().length,
+                  if (item is MainCard) {
+                    return item.buildMainCard(context);
+                  } else {
+                    return item.buildLateralInformation(context);
+                  }
+                },
+                childCount: _list().length,
+              ),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -154,7 +157,6 @@ class MainCard implements ListItem {
   Widget buildMainCard(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(kSpaceM),
-      margin: const EdgeInsets.only(bottom: kSpaceXS),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: kBorderRadius,

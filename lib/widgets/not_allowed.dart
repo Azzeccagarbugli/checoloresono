@@ -18,7 +18,7 @@ class NotAllowed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: kSpaceS),
+      margin: const EdgeInsets.only(top: kSpaceS),
       decoration: BoxDecoration(
         borderRadius: kBorderRadius,
         color: Colors.white,
