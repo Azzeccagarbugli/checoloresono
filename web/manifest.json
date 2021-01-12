@@ -1,22 +1,17 @@
 {
-    "name": "checoloresono",
-    "short_name": "checoloresono",
-    "start_url": ".",
+    "name": "Che colore sono?",
+    "short_name": "CCS",
+    "start_url": "index.html",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#000000",
+    "theme_color": "#000000",
+    "description": "Scopri il colore della tua regione in maniera semplice e veloce!",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
         {
-            "src": "icons/Icon-192.png",
+            "src": "icons/icon.png",
             "sizes": "192x192",
-            "type": "image/png"
-        },
-        {
-            "src": "icons/Icon-512.png",
-            "sizes": "512x512",
             "type": "image/png"
         }
     ]

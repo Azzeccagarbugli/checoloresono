@@ -5,16 +5,19 @@ import 'package:checoloresono/pages/second_page.dart';
 import 'package:checoloresono/pages/third_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 import 'package:sortedmap/sortedmap.dart';
-import 'package:http/http.dart' as http;
 
 import 'models/region.dart';
 
-void main() {
-  runApp(MyApp());
+void main() async {
+  await initializeDateFormatting('it');
+  runApp(CheColoreSono());
 }
 
-class MyApp extends StatelessWidget {
+class CheColoreSono extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -23,6 +26,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Computer Modern',
       ),
+      locale: Locale('it'),
       home: HomePage(),
     );
   }
@@ -39,26 +43,26 @@ class _HomePageState extends State<HomePage>
 
   Color _backgroundColor = Colors.grey[200];
 
-  Map<String, List<Region>> _regions;
   String _selectedRegion;
   int _selectedIndex = 0;
 
   bool _toggleOpacityFirstPage = true;
   bool _toggleOpacitySecondPage = true;
 
-  _buildRegion() {
-    Map<String, List<Region>> _fromInternet =
-        SortedMap.from(fetchRegion(http.Client()));
+  Future<Map<String, List<Region>>> _listRegions;
 
-    setState(() {
-      _regions = _fromInternet;
-    });
+  Future<Map<String, List<Region>>> _buildRegion() async {
+    return SortedMap.from(await fetchRegion());
   }
+
+  DateTime _now() => DateTime.now();
+  String _formattedDate() => DateFormat.yMMMMEEEEd('it').format(_now());
 
   @override
   void initState() {
     super.initState();
-    _buildRegion();
+
+    _listRegions = _buildRegion();
   }
 
   @override
@@ -75,38 +79,68 @@ class _HomePageState extends State<HomePage>
         duration: kDuration,
         color: _backgroundColor,
         child: Center(
-          child: PageView(
-            physics: NeverScrollableScrollPhysics(),
-            controller: _controller,
-            children: [
-              FirstPage(
-                toggleOpacity: _toggleOpacityFirstPage,
-                onPressed: () {
-                  setState(() {
-                    _toggleOpacityFirstPage = !_toggleOpacityFirstPage;
-                  });
-                  _controller.nextPage(duration: kDuration, curve: kCurve);
-                },
-              ),
-              SecondPage(
-                regions: _regions,
-                toggleOpacity: _toggleOpacitySecondPage,
-                onPressedButton: (index) {
-                  setState(() {
-                    _toggleOpacitySecondPage = !_toggleOpacitySecondPage;
-                    _selectedIndex = index;
-                    _selectedRegion = _regions.keys.elementAt(_selectedIndex);
-                    _backgroundColor =
-                        _regions.values.elementAt(_selectedIndex).first.color;
-                  });
-                  _controller.nextPage(duration: kDuration, curve: kCurve);
-                },
-              ),
-              ThirdPage(
-                colorRegion: _regions.values.elementAt(_selectedIndex).first,
-                nameRegion: _selectedRegion,
-              ),
-            ],
+          child: FutureBuilder<Map<String, List<Region>>>(
+            future: _listRegions,
+            builder: (context, snapshot) {
+              Widget _child;
+
+              if (snapshot.hasError) {
+                _child = Text(snapshot.error);
+              }
+
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                _child = SpinKitPulse(
+                  color: Colors.black,
+                );
+              } else {
+                _child = PageView(
+                  physics: NeverScrollableScrollPhysics(),
+                  controller: _controller,
+                  scrollDirection: Axis.vertical,
+                  children: [
+                    FirstPage(
+                      toggleOpacity: _toggleOpacityFirstPage,
+                      onPressed: () {
+                        setState(() {
+                          _toggleOpacityFirstPage = !_toggleOpacityFirstPage;
+                        });
+                        _controller.nextPage(
+                            duration: kDuration, curve: kCurve);
+                      },
+                    ),
+                    SecondPage(
+                      regions: snapshot.data,
+                      toggleOpacity: _toggleOpacitySecondPage,
+                      onPressedButton: (index) {
+                        setState(() {
+                          _toggleOpacitySecondPage = !_toggleOpacitySecondPage;
+                          _selectedIndex = index;
+                          _selectedRegion =
+                              snapshot.data.keys.elementAt(_selectedIndex);
+                          _backgroundColor = snapshot.data.values
+                              .elementAt(_selectedIndex)
+                              .first
+                              .color;
+                        });
+                        _controller.nextPage(
+                            duration: kDuration, curve: kCurve);
+                      },
+                    ),
+                    ThirdPage(
+                      date: _formattedDate(),
+                      region:
+                          snapshot.data.values.elementAt(_selectedIndex).first,
+                      nameRegion: _selectedRegion,
+                    ),
+                  ],
+                );
+              }
+
+              return AnimatedSwitcher(
+                child: _child,
+                duration: kDuration,
+              );
+            },
           ),
         ),
       ),

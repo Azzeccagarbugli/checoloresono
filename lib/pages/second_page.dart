@@ -43,22 +43,10 @@ class SecondPage extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: kBorderRadius,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey[300],
-                            offset: Offset(1.5, 1.5),
-                            blurRadius: 15.0,
-                            spreadRadius: 1.5,
-                          ),
-                          BoxShadow(
-                            color: Colors.white70,
-                            offset: Offset(-1.5, -1.5),
-                            blurRadius: 15.0,
-                            spreadRadius: 1.5,
-                          ),
-                        ],
                       ),
                       child: ListTile(
+                        hoverColor: Colors.black,
+                        mouseCursor: SystemMouseCursors.click,
                         leading: CircleAvatar(
                           backgroundColor: Colors.black,
                           child: Text(

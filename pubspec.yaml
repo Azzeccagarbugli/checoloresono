@@ -11,7 +11,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_spinkit: ^4.1.2+1
   http: ^0.12.2
+  intl: ^0.16.1
   sortedmap: ^0.4.2+1
 
 dev_dependencies:
@@ -21,23 +23,19 @@ dev_dependencies:
     sdk: flutter
 flutter:
 
- uses-material-design: true
+  uses-material-design: true
 
- fonts:
-  - family: Plex
-    fonts:
-      - asset: assets/fonts/IBMPlexSans-Bold.ttf
-        weight: 700
-      - asset: assets/fonts/IBMPlexSans-Regular.ttf
-        weight: 400
-      - asset: assets/fonts/IBMPlexSans-ExtraLight.ttf
-        weight: 200
-      - asset: assets/fonts/IBMPlexSans-Thin.ttf
-        weight: 100
-  - family: Computer Modern
-    fonts:
-      - asset: assets/fonts/Computer-Modern.ttf
-
-  
-  
- 
+  fonts:
+    - family: Plex
+      fonts:
+        - asset: assets/fonts/IBMPlexSans-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/IBMPlexSans-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/IBMPlexSans-ExtraLight.ttf
+          weight: 200
+        - asset: assets/fonts/IBMPlexSans-Thin.ttf
+          weight: 100
+    - family: Computer Modern
+      fonts:
+        - asset: assets/fonts/Computer-Modern.ttf
