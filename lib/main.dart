@@ -127,6 +127,16 @@ class _HomePageState extends State<HomePage>
                       },
                     ),
                     ThirdPage(
+                      onPressed: () {
+                        setState(() {
+                          _toggleOpacitySecondPage = !_toggleOpacitySecondPage;
+                          _backgroundColor = Colors.grey[200];
+                        });
+                        _controller.previousPage(
+                          duration: kDuration,
+                          curve: kCurve,
+                        );
+                      },
                       date: _formattedDate(),
                       region:
                           snapshot.data.values.elementAt(_selectedIndex).first,

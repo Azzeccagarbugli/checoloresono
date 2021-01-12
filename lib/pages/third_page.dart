@@ -1,6 +1,7 @@
 import 'package:checoloresono/common/constants.dart';
 import 'package:checoloresono/models/region.dart';
 import 'package:checoloresono/models/title_paragraph.dart';
+import 'package:checoloresono/widgets/black_button.dart';
 import 'package:checoloresono/widgets/limit_container.dart';
 import 'package:checoloresono/widgets/not_allowed.dart';
 import 'package:flutter/material.dart';
@@ -11,14 +12,17 @@ class ThirdPage extends StatelessWidget {
     @required String nameRegion,
     @required Region region,
     @required String date,
+    @required Function onPressed,
   })  : _nameRegion = nameRegion,
         _region = region,
         _date = date,
+        _onPressed = onPressed,
         super(key: key);
 
   final String _nameRegion;
   final String _date;
   final Region _region;
+  final Function _onPressed;
 
   List<ListItem> _list() => [
         MainCard(nameRegion: _nameRegion, date: _date, region: _region),
@@ -68,58 +72,20 @@ class ThirdPage extends StatelessWidget {
             flexibleSpace: Padding(
               padding: const EdgeInsets.all(kSpaceS),
               child: FractionallySizedBox(
-                heightFactor: 0.25,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: kBorderRadius,
-                  ),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: kSpaceM,
+                  heightFactor: 0.25,
+                  child: BlackButton(
+                    onPressed: _onPressed,
+                    widget: Text(
+                      'Seleziona un\'altra regione'.toUpperCase(),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 0.9,
+                        fontFamily: 'Plex',
                       ),
-                      Text(
-                        _nameRegion.toUpperCase(),
-                        style: TextStyle(
-                          fontWeight: FontWeight.w300,
-                          fontSize: 16,
-                          fontFamily: 'Plex',
-                          color: Colors.grey,
-                        ),
-                      ),
-                      SizedBox(
-                        width: kSpaceXS,
-                      ),
-                      Text(
-                        _region.name.toUpperCase(),
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          fontFamily: 'Plex',
-                          color: Colors.grey[350],
-                        ),
-                      ),
-                      Spacer(),
-                      Padding(
-                        padding:
-                            const EdgeInsets.symmetric(horizontal: kSpaceM),
-                        child: Container(
-                          padding: const EdgeInsets.all(kSpaceS),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.white,
-                          ),
-                          child: Icon(
-                            Icons.notifications_none_rounded,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+                    ),
+                    iconData: Icons.settings_backup_restore_rounded,
+                  )),
             ),
             expandedHeight: 300,
           ),
@@ -188,6 +154,7 @@ class MainCard implements ListItem {
   Widget buildMainCard(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(kSpaceM),
+      margin: const EdgeInsets.only(bottom: kSpaceXS),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: kBorderRadius,
