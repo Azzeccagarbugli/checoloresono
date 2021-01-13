@@ -35,10 +35,7 @@ class SecondPage extends StatelessWidget {
                   child: GestureDetector(
                     onTap: () => _onPressedButton(index),
                     child: Container(
-                      margin: const EdgeInsets.symmetric(
-                        vertical: kSpaceS,
-                        horizontal: kSpaceM,
-                      ),
+                      margin: const EdgeInsets.symmetric(vertical: kSpaceS),
                       padding: const EdgeInsets.all(kSpaceS),
                       decoration: BoxDecoration(
                         color: Colors.white,

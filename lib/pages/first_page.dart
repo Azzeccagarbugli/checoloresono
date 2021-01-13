@@ -31,6 +31,7 @@ class FirstPage extends StatelessWidget {
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 24,
+                letterSpacing: 0.9,
                 color: Colors.grey[800],
               ),
             ),
@@ -106,17 +107,17 @@ class FirstPage extends StatelessWidget {
                 text: TextSpan(
                   text: 'Made with love by ',
                   style: TextStyle(
-                    fontFamily: 'Plex',
+                    fontFamily: 'Computer Modern',
                     fontWeight: FontWeight.w400,
-                    color: Colors.grey[400].withOpacity(0.4),
+                    color: Colors.grey[400],
                   ),
                   children: [
                     TextSpan(
-                      text: 'beFair',
+                      text: 'Francesco Coppola',
                       style: TextStyle(
-                        fontFamily: 'Plex',
+                        fontFamily: 'Computer Modern',
                         fontWeight: FontWeight.bold,
-                        color: Colors.green[400].withOpacity(0.4),
+                        color: Colors.black.withOpacity(0.4),
                       ),
                     ),
                   ],

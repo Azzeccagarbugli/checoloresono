@@ -41,13 +41,15 @@ class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   final PageController _controller = PageController();
 
-  Color _backgroundColor = Colors.grey[200];
+  Color _defaultBackgroundColor = Colors.grey[200];
+  Color _backgroundColor;
 
   String _selectedRegion;
   int _selectedIndex = 0;
 
   bool _toggleOpacityFirstPage = true;
   bool _toggleOpacitySecondPage = true;
+  bool _toggleOpacityThirdPage = false;
 
   Future<Map<String, List<Region>>> _listRegions;
 
@@ -62,6 +64,7 @@ class _HomePageState extends State<HomePage>
   void initState() {
     super.initState();
 
+    _backgroundColor = _defaultBackgroundColor;
     _listRegions = _buildRegion();
   }
 
@@ -104,6 +107,7 @@ class _HomePageState extends State<HomePage>
                         setState(() {
                           _toggleOpacityFirstPage = !_toggleOpacityFirstPage;
                         });
+
                         _controller.nextPage(
                             duration: kDuration, curve: kCurve);
                       },
@@ -114,14 +118,18 @@ class _HomePageState extends State<HomePage>
                       onPressedButton: (index) {
                         setState(() {
                           _toggleOpacitySecondPage = !_toggleOpacitySecondPage;
+
                           _selectedIndex = index;
                           _selectedRegion =
                               snapshot.data.keys.elementAt(_selectedIndex);
+
+                          _toggleOpacityThirdPage = !_toggleOpacityThirdPage;
                           _backgroundColor = snapshot.data.values
                               .elementAt(_selectedIndex)
                               .first
                               .color;
                         });
+
                         _controller.nextPage(
                             duration: kDuration, curve: kCurve);
                       },
@@ -130,13 +138,16 @@ class _HomePageState extends State<HomePage>
                       onPressed: () {
                         setState(() {
                           _toggleOpacitySecondPage = !_toggleOpacitySecondPage;
-                          _backgroundColor = Colors.grey[200];
+                          _toggleOpacityThirdPage = !_toggleOpacityThirdPage;
+                          _backgroundColor = _defaultBackgroundColor;
                         });
+
                         _controller.previousPage(
                           duration: kDuration,
                           curve: kCurve,
                         );
                       },
+                      toggleOpacity: _toggleOpacityThirdPage,
                       date: _formattedDate(),
                       region:
                           snapshot.data.values.elementAt(_selectedIndex).first,

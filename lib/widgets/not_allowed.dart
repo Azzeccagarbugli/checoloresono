@@ -1,3 +1,4 @@
+import 'package:checoloresono/common/color_information.dart';
 import 'package:checoloresono/common/constants.dart';
 import 'package:checoloresono/models/region.dart';
 import 'package:checoloresono/models/title_paragraph.dart';
@@ -42,13 +43,17 @@ class NotAllowed extends StatelessWidget {
                 SizedBox(
                   width: kSpaceS,
                 ),
-                Text(
-                  _titleParagraph.title.toUpperCase(),
-                  style: TextStyle(
-                    fontFamily: 'Plex',
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                    color: Colors.white,
+                FittedBox(
+                  fit: BoxFit.fitWidth,
+                  child: Text(
+                    _titleParagraph.title.toUpperCase(),
+                    maxLines: 1,
+                    style: TextStyle(
+                      fontFamily: 'Plex',
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
                 Spacer(),
@@ -67,7 +72,8 @@ class NotAllowed extends StatelessWidget {
             padding:
                 const EdgeInsets.fromLTRB(kSpaceM, kSpaceXS, kSpaceM, kSpaceM),
             child: Text(
-              'Ci si può spostare liberamente all\'interno dell\'intera propria Regione, quindi anche tra Comuni diversi, senza necessità di presentare alcuna autocertificazione, sempre però nel rispetto degli orari di coprifuoco.',
+              ColorInformation(region: _region, titleParagraph: _titleParagraph)
+                  .check(),
               style: TextStyle(
                 fontWeight: FontWeight.w200,
                 fontSize: 16,

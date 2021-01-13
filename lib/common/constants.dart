@@ -13,7 +13,7 @@ const double kMaxWid = 512.0;
 BorderRadius kBorderRadius = BorderRadius.circular(12);
 
 // Duration
-const Duration kDuration = Duration(milliseconds: 800);
+const Duration kDuration = Duration(milliseconds: 500);
 
 // Curve
 const Curve kCurve = Curves.easeInSine;

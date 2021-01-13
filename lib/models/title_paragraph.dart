@@ -24,7 +24,7 @@ extension TitleParagraphExt on TitleParagraph {
       case TitleParagraph.SERVIZIALLAPERSONA:
         return 'servizi alla persona';
       case TitleParagraph.SPORTS:
-        return 'attività motoria e sportiva';
+        return 'attività sportiva';
       case TitleParagraph.VISITAACASA:
         return 'visita a casa';
       default:

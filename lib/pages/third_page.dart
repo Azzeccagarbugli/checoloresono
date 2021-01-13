@@ -13,15 +13,18 @@ class ThirdPage extends StatelessWidget {
     @required Region region,
     @required String date,
     @required Function onPressed,
+    @required bool toggleOpacity,
   })  : _nameRegion = nameRegion,
         _region = region,
         _date = date,
         _onPressed = onPressed,
+        _toggleOpacity = toggleOpacity,
         super(key: key);
 
   final String _nameRegion;
   final String _date;
   final Region _region;
+  final bool _toggleOpacity;
   final Function _onPressed;
 
   List<ListItem> _list() => [
@@ -58,55 +61,59 @@ class ThirdPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LimitContainer(
-      child: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            floating: true,
-            pinned: true,
-            shape: RoundedRectangleBorder(borderRadius: kBorderRadius),
-            snap: false,
-            collapsedHeight: 300,
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-            flexibleSpace: Padding(
-              padding: const EdgeInsets.all(kSpaceS),
-              child: FractionallySizedBox(
-                  heightFactor: 0.25,
-                  child: BlackButton(
-                    onPressed: _onPressed,
-                    widget: Text(
-                      'Seleziona un\'altra regione'.toUpperCase(),
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 0.9,
-                        fontFamily: 'Plex',
+    return AnimatedOpacity(
+      duration: kDuration,
+      opacity: _toggleOpacity ? 1.0 : 0.0,
+      child: LimitContainer(
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              floating: true,
+              pinned: true,
+              shape: RoundedRectangleBorder(borderRadius: kBorderRadius),
+              snap: false,
+              collapsedHeight: 300,
+              elevation: 0,
+              backgroundColor: Colors.transparent,
+              flexibleSpace: Padding(
+                padding: const EdgeInsets.all(kSpaceS),
+                child: FractionallySizedBox(
+                    heightFactor: 0.25,
+                    child: BlackButton(
+                      onPressed: _onPressed,
+                      widget: Text(
+                        'Torna indietro'.toUpperCase(),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 0.9,
+                          fontFamily: 'Plex',
+                        ),
                       ),
-                    ),
-                    iconData: Icons.settings_backup_restore_rounded,
-                  )),
+                      iconData: Icons.settings_backup_restore_rounded,
+                    )),
+              ),
+              expandedHeight: 300,
             ),
-            expandedHeight: 300,
-          ),
-          SliverPadding(
-            padding: const EdgeInsets.only(bottom: kSpaceS),
-            sliver: SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  final item = _list()[index];
+            SliverPadding(
+              padding: const EdgeInsets.only(bottom: kSpaceS),
+              sliver: SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                    final item = _list()[index];
 
-                  if (item is MainCard) {
-                    return item.buildMainCard(context);
-                  } else {
-                    return item.buildLateralInformation(context);
-                  }
-                },
-                childCount: _list().length,
+                    if (item is MainCard) {
+                      return item.buildMainCard(context);
+                    } else {
+                      return item.buildLateralInformation(context);
+                    }
+                  },
+                  childCount: _list().length,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -166,13 +173,28 @@ class MainCard implements ListItem {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(
-            _nameRegion,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 24,
-              color: Colors.grey[800],
-            ),
+          Row(
+            children: [
+              Text(
+                _nameRegion,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 24,
+                  letterSpacing: 0.9,
+                  color: Colors.grey[800],
+                ),
+              ),
+              Spacer(),
+              Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.favorite_outline_rounded,
+                  color: Colors.red,
+                ),
+              ),
+            ],
           ),
           Container(
             margin: const EdgeInsets.symmetric(vertical: kSpaceS),
