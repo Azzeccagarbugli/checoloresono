@@ -1,4 +1,5 @@
 import 'package:checoloresono/common/constants.dart';
+import 'package:checoloresono/common/remove_glow.dart';
 import 'package:checoloresono/models/region.dart';
 import 'package:checoloresono/models/title_paragraph.dart';
 import 'package:checoloresono/widgets/black_button.dart';
@@ -64,56 +65,73 @@ class ThirdPage extends StatelessWidget {
     return AnimatedOpacity(
       duration: kDuration,
       opacity: _toggleOpacity ? 1.0 : 0.0,
-      child: LimitContainer(
-        child: CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              floating: true,
-              pinned: true,
-              shape: RoundedRectangleBorder(borderRadius: kBorderRadius),
-              snap: false,
-              collapsedHeight: 300,
-              elevation: 0,
-              backgroundColor: Colors.transparent,
-              flexibleSpace: Padding(
-                padding: const EdgeInsets.all(kSpaceS),
+      child: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            floating: true,
+            pinned: true,
+            shape: RoundedRectangleBorder(borderRadius: kBorderRadius),
+            snap: false,
+            collapsedHeight: 300,
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            flexibleSpace: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: kSpaceS,
+              ),
+              child: Container(
+                margin: const EdgeInsets.all(kSpaceS),
                 child: FractionallySizedBox(
                     heightFactor: 0.25,
-                    child: BlackButton(
-                      onPressed: _onPressed,
-                      widget: Text(
-                        'Torna indietro'.toUpperCase(),
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 0.9,
-                          fontFamily: 'Plex',
+                    child: LimitContainer(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: kSpaceS,
+                        ),
+                        child: BlackButton(
+                          onPressed: _onPressed,
+                          widget: Text(
+                            'Torna indietro'.toUpperCase(),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 0.9,
+                              fontFamily: 'Plex',
+                            ),
+                          ),
+                          iconData: Icons.settings_backup_restore_rounded,
                         ),
                       ),
-                      iconData: Icons.settings_backup_restore_rounded,
                     )),
               ),
-              expandedHeight: 300,
             ),
-            SliverPadding(
-              padding: const EdgeInsets.only(bottom: kSpaceS),
-              sliver: SliverList(
+            expandedHeight: 300,
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.only(bottom: kSpaceS),
+            sliver: ScrollConfiguration(
+              behavior: RemoveGlow(),
+              child: SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
                     final item = _list()[index];
 
                     if (item is MainCard) {
-                      return item.buildMainCard(context);
+                      return LimitContainer(
+                        child: item.buildMainCard(context),
+                      );
                     } else {
-                      return item.buildLateralInformation(context);
+                      return LimitContainer(
+                        child: item.buildLateralInformation(context),
+                      );
                     }
                   },
                   childCount: _list().length,
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -175,7 +193,7 @@ class MainCard implements ListItem {
         children: <Widget>[
           Row(
             children: [
-              Text(
+              SelectableText(
                 _nameRegion,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -204,8 +222,8 @@ class MainCard implements ListItem {
               borderRadius: kBorderRadius,
             ),
           ),
-          RichText(
-            text: TextSpan(
+          SelectableText.rich(
+            TextSpan(
               text: 'La regione selezionata, in data $_date, è di ',
               style: TextStyle(
                 fontFamily: 'Computer Modern',

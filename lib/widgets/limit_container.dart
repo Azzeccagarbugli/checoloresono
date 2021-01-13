@@ -2,9 +2,13 @@ import 'package:checoloresono/common/constants.dart';
 import 'package:flutter/material.dart';
 
 class LimitContainer extends StatelessWidget {
-  const LimitContainer({Key key, this.child}) : super(key: key);
+  const LimitContainer({
+    Key key,
+    @required Widget child,
+  })  : _child = child,
+        super(key: key);
 
-  final Widget child;
+  final Widget _child;
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +16,7 @@ class LimitContainer extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: kSpaceM),
         constraints: BoxConstraints(maxWidth: kMaxWid),
-        child: child,
+        child: _child,
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:checoloresono/common/constants.dart';
+import 'package:checoloresono/common/remove_glow.dart';
 import 'package:checoloresono/models/region.dart';
 import 'package:checoloresono/widgets/limit_container.dart';
 import 'package:flutter/material.dart';
@@ -24,51 +25,54 @@ class SecondPage extends StatelessWidget {
     return AnimatedOpacity(
       duration: kDuration,
       opacity: _toggleOpacity ? 1.0 : 0.0,
-      child: LimitContainer(
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Positioned.fill(
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Positioned.fill(
+            child: ScrollConfiguration(
+              behavior: RemoveGlow(),
               child: ListView.builder(
-                itemBuilder: (_, index) => MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  child: GestureDetector(
-                    onTap: () => _onPressedButton(index),
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(vertical: kSpaceS),
-                      padding: const EdgeInsets.all(kSpaceS),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: kBorderRadius,
-                      ),
-                      child: ListTile(
-                        hoverColor: Colors.black,
-                        mouseCursor: SystemMouseCursors.click,
-                        leading: CircleAvatar(
-                          backgroundColor: Colors.black,
-                          child: Text(
-                            _regions.keys.elementAt(index)[0].toUpperCase(),
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: 'Plex',
-                            ),
-                          ),
+                itemBuilder: (_, index) => LimitContainer(
+                  child: MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: GestureDetector(
+                      onTap: () => _onPressedButton(index),
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(vertical: kSpaceS),
+                        padding: const EdgeInsets.all(kSpaceS),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: kBorderRadius,
                         ),
-                        trailing: Icon(
-                          Icons.lens,
-                          color: _regions.values.elementAt(index)[0].color,
-                          size: 12,
-                        ),
-                        title: Row(
-                          children: [
-                            Text(
-                              _regions.keys.elementAt(index),
+                        child: ListTile(
+                          hoverColor: Colors.black,
+                          mouseCursor: SystemMouseCursors.click,
+                          leading: CircleAvatar(
+                            backgroundColor: Colors.black,
+                            child: Text(
+                              _regions.keys.elementAt(index)[0].toUpperCase(),
                               style: TextStyle(
+                                color: Colors.white,
                                 fontFamily: 'Plex',
-                                color: Colors.black,
                               ),
                             ),
-                          ],
+                          ),
+                          trailing: Icon(
+                            Icons.lens,
+                            color: _regions.values.elementAt(index)[0].color,
+                            size: 12,
+                          ),
+                          title: Row(
+                            children: [
+                              Text(
+                                _regions.keys.elementAt(index),
+                                style: TextStyle(
+                                  fontFamily: 'Plex',
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -77,8 +81,8 @@ class SecondPage extends StatelessWidget {
                 itemCount: _regions.length,
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

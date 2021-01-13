@@ -43,17 +43,14 @@ class NotAllowed extends StatelessWidget {
                 SizedBox(
                   width: kSpaceS,
                 ),
-                FittedBox(
-                  fit: BoxFit.fitWidth,
-                  child: Text(
-                    _titleParagraph.title.toUpperCase(),
-                    maxLines: 1,
-                    style: TextStyle(
-                      fontFamily: 'Plex',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                      color: Colors.white,
-                    ),
+                SelectableText(
+                  _titleParagraph.title.toUpperCase(),
+                  maxLines: 1,
+                  style: TextStyle(
+                    fontFamily: 'Plex',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    color: Colors.white,
                   ),
                 ),
                 Spacer(),
@@ -71,7 +68,7 @@ class NotAllowed extends StatelessWidget {
           Padding(
             padding:
                 const EdgeInsets.fromLTRB(kSpaceM, kSpaceXS, kSpaceM, kSpaceM),
-            child: Text(
+            child: SelectableText(
               ColorInformation(region: _region, titleParagraph: _titleParagraph)
                   .check(),
               style: TextStyle(

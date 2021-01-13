@@ -10,7 +10,7 @@ const double kSpaceL = 32.0;
 const double kMaxWid = 512.0;
 
 // Border Radius
-BorderRadius kBorderRadius = BorderRadius.circular(12);
+BorderRadius kBorderRadius = BorderRadius.circular(14);
 
 // Duration
 const Duration kDuration = Duration(milliseconds: 500);

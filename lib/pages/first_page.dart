@@ -26,7 +26,7 @@ class FirstPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Spacer(),
-            Text(
+            SelectableText(
               'Che colore sono?',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
@@ -43,8 +43,8 @@ class FirstPage extends StatelessWidget {
                 borderRadius: kBorderRadius,
               ),
             ),
-            RichText(
-              text: TextSpan(
+            SelectableText.rich(
+              TextSpan(
                 text: 'Attraverso la seguente piattaforma potrai ',
                 style: TextStyle(
                   fontFamily: 'Computer Modern',
@@ -102,9 +102,8 @@ class FirstPage extends StatelessWidget {
             Spacer(),
             Padding(
               padding: const EdgeInsets.all(kSpaceM),
-              child: RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(
+              child: SelectableText.rich(
+                TextSpan(
                   text: 'Made with love by ',
                   style: TextStyle(
                     fontFamily: 'Computer Modern',
@@ -122,6 +121,7 @@ class FirstPage extends StatelessWidget {
                     ),
                   ],
                 ),
+                textAlign: TextAlign.center,
               ),
             ),
           ],
