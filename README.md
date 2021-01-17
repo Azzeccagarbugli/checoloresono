@@ -6,8 +6,8 @@ The classification is based on ordinances issued by the [**Ministry of Health**]
 
 <p float="left">
   <img src="./docs/screen1.png" width="32%" />
-  <img src="./docs/screen2.png" width="32%" />
-  <img src="./docs/screen3.png" width="32%" />
+  <img src="./docs/screen2.png" width="32.3%" />
+  <img src="./docs/screen3.png" width="31.1%" />
 </p>
 
 ## ⚙️ Contributing
