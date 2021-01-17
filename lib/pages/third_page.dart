@@ -65,73 +65,76 @@ class ThirdPage extends StatelessWidget {
     return AnimatedOpacity(
       duration: kDuration,
       opacity: _toggleOpacity ? 1.0 : 0.0,
-      child: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            floating: true,
-            pinned: true,
-            shape: RoundedRectangleBorder(borderRadius: kBorderRadius),
-            snap: false,
-            collapsedHeight: 300,
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-            flexibleSpace: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: kSpaceS,
-              ),
-              child: Container(
-                margin: const EdgeInsets.all(kSpaceS),
-                child: FractionallySizedBox(
-                    heightFactor: 0.25,
-                    child: LimitContainer(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: kSpaceS,
-                        ),
-                        child: BlackButton(
-                          onPressed: _onPressed,
-                          widget: Text(
-                            'Torna indietro'.toUpperCase(),
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 0.9,
-                              fontFamily: 'Plex',
-                            ),
+      child: ScrollConfiguration(
+        behavior: RemoveGlow(),
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              floating: true,
+              pinned: true,
+              shape: RoundedRectangleBorder(borderRadius: kBorderRadius),
+              snap: false,
+              collapsedHeight: 300,
+              elevation: 0,
+              backgroundColor: Colors.transparent,
+              flexibleSpace: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: kSpaceS,
+                ),
+                child: Container(
+                  margin: const EdgeInsets.all(kSpaceS),
+                  child: FractionallySizedBox(
+                      heightFactor: 0.25,
+                      child: LimitContainer(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: kSpaceS,
                           ),
-                          iconData: Icons.settings_backup_restore_rounded,
+                          child: BlackButton(
+                            onPressed: _onPressed,
+                            widget: Text(
+                              'Torna indietro'.toUpperCase(),
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 0.9,
+                                fontFamily: 'Plex',
+                              ),
+                            ),
+                            iconData: Icons.settings_backup_restore_rounded,
+                          ),
                         ),
-                      ),
-                    )),
+                      )),
+                ),
               ),
+              expandedHeight: 300,
             ),
-            expandedHeight: 300,
-          ),
-          SliverPadding(
-            padding: const EdgeInsets.only(bottom: kSpaceS),
-            sliver: ScrollConfiguration(
-              behavior: RemoveGlow(),
-              child: SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    final item = _list()[index];
+            SliverPadding(
+              padding: const EdgeInsets.only(bottom: kSpaceS),
+              sliver: ScrollConfiguration(
+                behavior: RemoveGlow(),
+                child: SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) {
+                      final item = _list()[index];
 
-                    if (item is MainCard) {
-                      return LimitContainer(
-                        child: item.buildMainCard(context),
-                      );
-                    } else {
-                      return LimitContainer(
-                        child: item.buildLateralInformation(context),
-                      );
-                    }
-                  },
-                  childCount: _list().length,
+                      if (item is MainCard) {
+                        return LimitContainer(
+                          child: item.buildMainCard(context),
+                        );
+                      } else {
+                        return LimitContainer(
+                          child: item.buildLateralInformation(context),
+                        );
+                      }
+                    },
+                    childCount: _list().length,
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -180,6 +183,47 @@ class MainCard implements ListItem {
 
   @override
   Widget buildMainCard(BuildContext context) {
+    return RegionCard(
+      nameRegion: _nameRegion,
+      date: _date,
+      region: _region,
+    );
+  }
+
+  @override
+  Widget buildLateralInformation(BuildContext context) => null;
+}
+
+class RegionCard extends StatefulWidget {
+  const RegionCard({
+    Key key,
+    @required String nameRegion,
+    @required String date,
+    @required Region region,
+  })  : _nameRegion = nameRegion,
+        _date = date,
+        _region = region,
+        super(key: key);
+
+  final String _nameRegion;
+  final String _date;
+  final Region _region;
+
+  @override
+  _RegionCardState createState() => _RegionCardState();
+}
+
+class _RegionCardState extends State<RegionCard> {
+  bool _isSaved;
+
+  @override
+  void initState() {
+    super.initState();
+    _isSaved = false;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(kSpaceM),
       decoration: BoxDecoration(
@@ -194,7 +238,7 @@ class MainCard implements ListItem {
           Row(
             children: [
               SelectableText(
-                _nameRegion,
+                widget._nameRegion,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 24,
@@ -203,13 +247,30 @@ class MainCard implements ListItem {
                 ),
               ),
               Spacer(),
-              Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  Icons.favorite_outline_rounded,
-                  color: Colors.red,
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _isSaved = !_isSaved;
+                  });
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                  ),
+                  child: AnimatedCrossFade(
+                    firstChild: Icon(
+                      Icons.favorite_outline_rounded,
+                      color: Colors.red,
+                    ),
+                    secondChild: Icon(
+                      Icons.favorite_rounded,
+                      color: Colors.red,
+                    ),
+                    crossFadeState: _isSaved
+                        ? CrossFadeState.showFirst
+                        : CrossFadeState.showSecond,
+                    duration: kDuration,
+                  ),
                 ),
               ),
             ],
@@ -224,7 +285,7 @@ class MainCard implements ListItem {
           ),
           SelectableText.rich(
             TextSpan(
-              text: 'La regione selezionata, in data $_date, è di ',
+              text: 'La regione selezionata, in data ${widget._date}, è di ',
               style: TextStyle(
                 fontFamily: 'Computer Modern',
                 fontWeight: FontWeight.w200,
@@ -234,12 +295,12 @@ class MainCard implements ListItem {
               ),
               children: [
                 TextSpan(
-                  text: 'colore ${_region.name}',
+                  text: 'colore ${widget._region.name}',
                   style: TextStyle(
                     fontFamily: 'Computer Modern',
                     fontWeight: FontWeight.bold,
                     letterSpacing: 0.8,
-                    color: _region.color,
+                    color: widget._region.color,
                   ),
                 ),
                 TextSpan(
@@ -258,7 +319,4 @@ class MainCard implements ListItem {
       ),
     );
   }
-
-  @override
-  Widget buildLateralInformation(BuildContext context) => null;
 }
