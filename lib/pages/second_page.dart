@@ -60,7 +60,7 @@ class SecondPage extends StatelessWidget {
                           trailing: Icon(
                             Icons.lens,
                             color: _regions.values.elementAt(index)[0].color,
-                            size: 12,
+                            size: 14,
                           ),
                           title: Row(
                             children: [

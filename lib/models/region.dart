@@ -45,9 +45,9 @@ extension RegionExtension on Region {
 }
 
 final regionValues = EnumValues({
-  "arancione": Region.ARANCIONE,
-  "giallo": Region.GIALLO,
-  "rosso": Region.ROSSO
+  'arancione': Region.ARANCIONE,
+  'giallo': Region.GIALLO,
+  'rosso': Region.ROSSO
 });
 
 class EnumValues<T> {

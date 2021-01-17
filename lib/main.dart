@@ -1,4 +1,6 @@
 import 'package:checoloresono/common/constants.dart';
+import 'package:checoloresono/common/session_manager.dart';
+import 'package:checoloresono/models/saved_region.dart';
 import 'package:checoloresono/network/get_region.dart';
 import 'package:checoloresono/pages/first_page.dart';
 import 'package:checoloresono/pages/second_page.dart';
@@ -39,8 +41,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
-  final PageController _controller = PageController();
-
   Color _defaultBackgroundColor = Colors.grey[200];
   Color _backgroundColor;
 
@@ -51,11 +51,26 @@ class _HomePageState extends State<HomePage>
   bool _toggleOpacitySecondPage = true;
   bool _toggleOpacityThirdPage = false;
 
-  Future<Map<String, List<Region>>> _listRegions;
-
   Future<Map<String, List<Region>>> _buildRegion() async {
     return SortedMap.from(await fetchRegion());
   }
+
+  Future<SavedRegion> _thereIsARegionSaved() async {
+    return SavedRegion(
+      isSaved: await SessionManager().getFavoriteRegion(),
+      index: await SessionManager().getIndexRegion(),
+      name: await SessionManager().getNameRegion(),
+    );
+  }
+
+  Future<List<dynamic>> _buildFuture() async {
+    return await Future.wait([
+      _buildRegion(),
+      _thereIsARegionSaved(),
+    ]);
+  }
+
+  Future _future;
 
   DateTime _now() => DateTime.now();
   String _formattedDate() => DateFormat.yMMMMEEEEd('it').format(_now());
@@ -63,14 +78,13 @@ class _HomePageState extends State<HomePage>
   @override
   void initState() {
     super.initState();
-
     _backgroundColor = _defaultBackgroundColor;
-    _listRegions = _buildRegion();
+
+    _future = _buildFuture();
   }
 
   @override
   void dispose() {
-    _controller.dispose();
     super.dispose();
   }
 
@@ -78,25 +92,40 @@ class _HomePageState extends State<HomePage>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: AnimatedContainer(
-        duration: kDuration,
-        color: _backgroundColor,
-        child: Center(
-          child: FutureBuilder<Map<String, List<Region>>>(
-            future: _listRegions,
-            builder: (context, snapshot) {
-              Widget _child;
+      body: Center(
+        child: FutureBuilder<List<dynamic>>(
+          future: _future,
+          builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
+            Widget _child;
 
-              if (snapshot.hasError) {
-                _child = Text(snapshot.error);
+            if (snapshot.hasError) {
+              _child = Text(snapshot.error);
+            }
+
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              _child = SpinKitPulse(
+                color: Colors.black,
+              );
+            } else {
+              Map<String, List<Region>> _listRegions = snapshot.data[0];
+              SavedRegion _thereIsARegionSaved = snapshot.data[1];
+
+              final PageController _controller = PageController(
+                initialPage: _thereIsARegionSaved.isSaved ? 2 : 0,
+              );
+
+              if (_thereIsARegionSaved.isSaved) {
+                _toggleOpacityThirdPage = true;
+                _backgroundColor = _listRegions.values
+                    .elementAt(_thereIsARegionSaved.index)
+                    .first
+                    .color;
               }
 
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                _child = SpinKitPulse(
-                  color: Colors.black,
-                );
-              } else {
-                _child = PageView(
+              _child = AnimatedContainer(
+                duration: kDuration,
+                color: _backgroundColor,
+                child: PageView(
                   physics: NeverScrollableScrollPhysics(),
                   controller: _controller,
                   scrollDirection: Axis.vertical,
@@ -109,37 +138,43 @@ class _HomePageState extends State<HomePage>
                         });
 
                         _controller.nextPage(
-                            duration: kDuration, curve: kCurve);
+                          duration: kDuration,
+                          curve: kCurve,
+                        );
                       },
                     ),
                     SecondPage(
-                      regions: snapshot.data,
                       toggleOpacity: _toggleOpacitySecondPage,
+                      regions: _listRegions,
                       onPressedButton: (index) {
                         setState(() {
                           _toggleOpacitySecondPage = !_toggleOpacitySecondPage;
 
                           _selectedIndex = index;
                           _selectedRegion =
-                              snapshot.data.keys.elementAt(_selectedIndex);
+                              _listRegions.keys.elementAt(_selectedIndex);
 
                           _toggleOpacityThirdPage = !_toggleOpacityThirdPage;
-                          _backgroundColor = snapshot.data.values
+
+                          _backgroundColor = _listRegions.values
                               .elementAt(_selectedIndex)
                               .first
                               .color;
                         });
 
                         _controller.nextPage(
-                            duration: kDuration, curve: kCurve);
+                          duration: kDuration,
+                          curve: kCurve,
+                        );
                       },
                     ),
                     ThirdPage(
-                      onPressed: () {
+                      toggleOpacity: _toggleOpacityThirdPage,
+                      onPressed: () async {
                         setState(() {
+                          _backgroundColor = _defaultBackgroundColor;
                           _toggleOpacitySecondPage = !_toggleOpacitySecondPage;
                           _toggleOpacityThirdPage = !_toggleOpacityThirdPage;
-                          _backgroundColor = _defaultBackgroundColor;
                         });
 
                         _controller.previousPage(
@@ -147,22 +182,23 @@ class _HomePageState extends State<HomePage>
                           curve: kCurve,
                         );
                       },
-                      toggleOpacity: _toggleOpacityThirdPage,
                       date: _formattedDate(),
+                      isSaved: _thereIsARegionSaved.isSaved,
                       region:
-                          snapshot.data.values.elementAt(_selectedIndex).first,
+                          _listRegions.values.elementAt(_selectedIndex).first,
+                      onTapFavoriteRegion: () {},
                       nameRegion: _selectedRegion,
                     ),
                   ],
-                );
-              }
-
-              return AnimatedSwitcher(
-                child: _child,
-                duration: kDuration,
+                ),
               );
-            },
-          ),
+            }
+
+            return AnimatedSwitcher(
+              child: _child,
+              duration: kDuration,
+            );
+          },
         ),
       ),
     );

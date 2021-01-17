@@ -6,6 +6,7 @@ import 'package:checoloresono/widgets/black_button.dart';
 import 'package:checoloresono/widgets/limit_container.dart';
 import 'package:checoloresono/widgets/not_allowed.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 class ThirdPage extends StatelessWidget {
   const ThirdPage({
@@ -15,11 +16,15 @@ class ThirdPage extends StatelessWidget {
     @required String date,
     @required Function onPressed,
     @required bool toggleOpacity,
+    @required bool isSaved,
+    @required Function onTapFavoriteRegion,
   })  : _nameRegion = nameRegion,
         _region = region,
         _date = date,
         _onPressed = onPressed,
         _toggleOpacity = toggleOpacity,
+        _isSaved = isSaved,
+        _onTapFavoriteRegion = onTapFavoriteRegion,
         super(key: key);
 
   final String _nameRegion;
@@ -27,9 +32,17 @@ class ThirdPage extends StatelessWidget {
   final Region _region;
   final bool _toggleOpacity;
   final Function _onPressed;
+  final bool _isSaved;
+  final Function _onTapFavoriteRegion;
 
   List<ListItem> _list() => [
-        MainCard(nameRegion: _nameRegion, date: _date, region: _region),
+        MainCard(
+          nameRegion: _nameRegion,
+          date: _date,
+          region: _region,
+          onTapFavoriteRegion: _onTapFavoriteRegion,
+          isSaved: _isSaved,
+        ),
         LateralInformation(
           region: _region,
           titleParagraph: TitleParagraph.COPRIFUOCO,
@@ -142,7 +155,6 @@ class ThirdPage extends StatelessWidget {
 
 abstract class ListItem {
   Widget buildMainCard(BuildContext context);
-
   Widget buildLateralInformation(BuildContext context);
 }
 
@@ -173,20 +185,28 @@ class MainCard implements ListItem {
     @required String nameRegion,
     @required String date,
     @required Region region,
+    @required bool isSaved,
+    @required Function onTapFavoriteRegion,
   })  : _nameRegion = nameRegion,
         _date = date,
-        _region = region;
+        _region = region,
+        _onTapFavoriteRegion = onTapFavoriteRegion,
+        _isSaved = isSaved;
 
   final String _nameRegion;
   final String _date;
   final Region _region;
+  final bool _isSaved;
+  final Function _onTapFavoriteRegion;
 
   @override
   Widget buildMainCard(BuildContext context) {
     return RegionCard(
+      onTapFavoriteRegion: _onTapFavoriteRegion,
       nameRegion: _nameRegion,
       date: _date,
       region: _region,
+      isSaved: _isSaved,
     );
   }
 
@@ -194,33 +214,26 @@ class MainCard implements ListItem {
   Widget buildLateralInformation(BuildContext context) => null;
 }
 
-class RegionCard extends StatefulWidget {
+class RegionCard extends StatelessWidget {
   const RegionCard({
     Key key,
     @required String nameRegion,
     @required String date,
     @required Region region,
+    @required bool isSaved,
+    @required Function onTapFavoriteRegion,
   })  : _nameRegion = nameRegion,
         _date = date,
+        _isSaved = isSaved,
         _region = region,
+        _onTapFavoriteRegion = onTapFavoriteRegion,
         super(key: key);
 
   final String _nameRegion;
   final String _date;
   final Region _region;
-
-  @override
-  _RegionCardState createState() => _RegionCardState();
-}
-
-class _RegionCardState extends State<RegionCard> {
-  bool _isSaved;
-
-  @override
-  void initState() {
-    super.initState();
-    _isSaved = false;
-  }
+  final bool _isSaved;
+  final Function _onTapFavoriteRegion;
 
   @override
   Widget build(BuildContext context) {
@@ -238,7 +251,7 @@ class _RegionCardState extends State<RegionCard> {
           Row(
             children: [
               SelectableText(
-                widget._nameRegion,
+                _nameRegion,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 24,
@@ -247,29 +260,28 @@ class _RegionCardState extends State<RegionCard> {
                 ),
               ),
               Spacer(),
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _isSaved = !_isSaved;
-                  });
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                  ),
-                  child: AnimatedCrossFade(
-                    firstChild: Icon(
-                      Icons.favorite_outline_rounded,
-                      color: Colors.red,
+              MouseRegion(
+                cursor: SystemMouseCursors.click,
+                child: GestureDetector(
+                  onTap: () => _onTapFavoriteRegion(),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
                     ),
-                    secondChild: Icon(
-                      Icons.favorite_rounded,
-                      color: Colors.red,
+                    child: AnimatedCrossFade(
+                      firstChild: Icon(
+                        Icons.favorite_outline_rounded,
+                        color: Colors.red,
+                      ),
+                      secondChild: Icon(
+                        Icons.favorite_rounded,
+                        color: Colors.red,
+                      ),
+                      crossFadeState: !_isSaved
+                          ? CrossFadeState.showFirst
+                          : CrossFadeState.showSecond,
+                      duration: kDuration,
                     ),
-                    crossFadeState: _isSaved
-                        ? CrossFadeState.showFirst
-                        : CrossFadeState.showSecond,
-                    duration: kDuration,
                   ),
                 ),
               ),
@@ -285,7 +297,7 @@ class _RegionCardState extends State<RegionCard> {
           ),
           SelectableText.rich(
             TextSpan(
-              text: 'La regione selezionata, in data ${widget._date}, è di ',
+              text: 'La regione selezionata, in data $_date, è di ',
               style: TextStyle(
                 fontFamily: 'Computer Modern',
                 fontWeight: FontWeight.w200,
@@ -295,12 +307,12 @@ class _RegionCardState extends State<RegionCard> {
               ),
               children: [
                 TextSpan(
-                  text: 'colore ${widget._region.name}',
+                  text: 'colore ${_region.name}',
                   style: TextStyle(
                     fontFamily: 'Computer Modern',
                     fontWeight: FontWeight.bold,
                     letterSpacing: 0.8,
-                    color: widget._region.color,
+                    color: _region.color,
                   ),
                 ),
                 TextSpan(
