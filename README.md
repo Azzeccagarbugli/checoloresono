@@ -3,6 +3,13 @@
 In Italy Regions and Autonomous Provinces are classified into three areas - **red**, **orange**, **yellow** - corresponding to three risk scenarios, for which specific restrictive measures are foreseen. This web application, made in [Flutter](https://flutter.dev), aims to help the user to find in a smarter way this kind of information.
 
 The classification is based on ordinances issued by the [**Ministry of Health**](http://www.salute.gov.it/portale/nuovocoronavirus/dettaglioContenutiNuovoCoronavirus.jsp?lingua=english&id=5367&area=nuovoCoronavirus&menu=vuoto).
+
+<p float="left">
+  <img src="./docs/screen1.png" width="32%" />
+  <img src="./docs/screen2.png" width="32%" />
+  <img src="./docs/screen3.png" width="32%" />
+</p>
+
 ## ⚙️ Contributing
 
 If you want to contribute to **checoloresono**, feel free to open a pull request.
