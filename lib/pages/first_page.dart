@@ -2,6 +2,7 @@ import 'package:checoloresono/common/constants.dart';
 import 'package:checoloresono/widgets/black_button.dart';
 import 'package:checoloresono/widgets/limit_container.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class FirstPage extends StatelessWidget {
   const FirstPage({
@@ -14,6 +15,14 @@ class FirstPage extends StatelessWidget {
 
   final Function _onPressed;
   final bool _toggleOpacity;
+
+  _launchURL() async {
+    if (await canLaunch(kUrl)) {
+      await launch(kUrl);
+    } else {
+      throw 'Could not launch $kUrl';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,6 +94,25 @@ class FirstPage extends StatelessWidget {
             ),
             SizedBox(
               height: kSpaceM,
+            ),
+            BlackButton(
+              iconData: Icons.download_rounded,
+              color: Colors.grey,
+              widget: Text(
+                'Scarica autocertificazione'.toUpperCase(),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 0.9,
+                  fontFamily: 'Plex',
+                ),
+              ),
+              onPressed: () async {
+                await _launchURL();
+              },
+            ),
+            SizedBox(
+              height: kSpaceS,
             ),
             BlackButton(
               iconData: Icons.flag_rounded,

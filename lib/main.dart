@@ -111,7 +111,7 @@ class _HomePageState extends State<HomePage>
               SavedRegion _thereIsARegionSaved = snapshot.data[1];
 
               final PageController _controller = PageController(
-                initialPage: _thereIsARegionSaved.isSaved ? 2 : 0,
+                initialPage: 0,
               );
 
               if (_thereIsARegionSaved.isSaved) {
@@ -183,10 +183,8 @@ class _HomePageState extends State<HomePage>
                         );
                       },
                       date: _formattedDate(),
-                      isSaved: _thereIsARegionSaved.isSaved,
                       region:
                           _listRegions.values.elementAt(_selectedIndex).first,
-                      onTapFavoriteRegion: () {},
                       nameRegion: _selectedRegion,
                     ),
                   ],

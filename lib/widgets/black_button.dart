@@ -8,11 +8,13 @@ class BlackButton extends StatelessWidget {
     @required this.onPressed,
     @required this.widget,
     @required this.iconData,
+    this.color = Colors.black,
   }) : super(key: key);
 
   final Widget widget;
   final IconData iconData;
   final Function onPressed;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,7 @@ class BlackButton extends StatelessWidget {
           padding: const EdgeInsets.all(kSpaceM),
           decoration: BoxDecoration(
             borderRadius: kBorderRadius,
-            color: Colors.black,
+            color: color ?? Colors.black,
           ),
           child: Stack(
             alignment: Alignment.center,
@@ -35,7 +37,7 @@ class BlackButton extends StatelessWidget {
                   backgroundColor: Colors.white,
                   child: Icon(
                     iconData,
-                    color: Colors.black,
+                    color: color ?? Colors.black,
                   ),
                 ),
               ),

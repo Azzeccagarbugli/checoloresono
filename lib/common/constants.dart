@@ -17,3 +17,7 @@ const Duration kDuration = Duration(milliseconds: 500);
 
 // Curve
 const Curve kCurve = Curves.easeInSine;
+
+// Autocertificazione
+const String kUrl =
+    'https://www.interno.gov.it/sites/default/files/2020-10/modello_autodichiarazione_editabile_ottobre_2020.pdf';
