@@ -8,6 +8,10 @@ import 'package:checoloresono/widgets/not_allowed.dart';
 import 'package:checoloresono/widgets/region_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../common/constants.dart';
+import '../widgets/black_button.dart';
 
 class ThirdPage extends StatelessWidget {
   const ThirdPage({
@@ -36,7 +40,9 @@ class ThirdPage extends StatelessWidget {
           date: _date,
           region: _region,
         ),
-        // ActionButton(),
+        ActionButton(
+          region: _region,
+        ),
         LateralInformation(
           region: _region,
           titleParagraph: TitleParagraph.COPRIFUOCO,
@@ -158,39 +164,44 @@ abstract class ListItem {
 }
 
 class ActionButton implements ListItem {
+  const ActionButton({
+    @required Region region,
+  }) : _region = region;
+
+  final Region _region;
+
+  _launchURL() async {
+    if (await canLaunch(kFaq)) {
+      await launch(kFaq);
+    } else {
+      throw 'Could not launch $kFaq';
+    }
+  }
+
   @override
   Widget buildActionButton(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(top: kSpaceS),
-      padding: const EdgeInsets.symmetric(vertical: kSpaceXS),
-      decoration: BoxDecoration(
-        borderRadius: kBorderRadius,
-        color: Colors.indigo,
-      ),
-      child: ListTile(
-        title: Text(
-          'Scarica autocertificazione'.toUpperCase(),
+    return Padding(
+      padding: const EdgeInsets.only(top: kSpaceS),
+      child: BlackButton(
+        visibility: MediaQuery.of(context).size.width > kMaxWid,
+        border: Border.all(
+          color: Colors.white,
+          width: kSpaceXS,
+        ),
+        onPressed: () async {
+          await _launchURL();
+        },
+        widget: Text(
+          'Visualizza le FAQ del governo'.toUpperCase(),
           style: TextStyle(
-            fontFamily: 'Plex',
             color: Colors.white,
             fontWeight: FontWeight.bold,
-          ),
-        ),
-        subtitle: Text(
-          'Ottieni il modello ufficiale proposto dallo stato come riferimento per le autocertificazioni',
-          style: TextStyle(
+            letterSpacing: 0.9,
             fontFamily: 'Plex',
-            color: Colors.white60,
-            height: 1.4,
           ),
         ),
-        leading: CircleAvatar(
-          backgroundColor: Colors.white,
-          child: Icon(
-            Icons.download_rounded,
-            color: Colors.indigo,
-          ),
-        ),
+        color: _region.color,
+        iconData: Icons.question_answer_rounded,
       ),
     );
   }

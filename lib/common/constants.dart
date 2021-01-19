@@ -21,3 +21,6 @@ const Curve kCurve = Curves.easeInSine;
 // Autocertificazione
 const String kUrl =
     'https://www.interno.gov.it/sites/default/files/2020-10/modello_autodichiarazione_editabile_ottobre_2020.pdf';
+
+const String kFaq =
+    'http://www.governo.it/it/articolo/domande-frequenti-sulle-misure-adottate-dal-governo/15638';

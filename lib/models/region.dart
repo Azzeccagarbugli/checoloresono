@@ -42,6 +42,19 @@ extension RegionExtension on Region {
         return Colors.transparent;
     }
   }
+
+  Color get darkerColor {
+    switch (this) {
+      case Region.ROSSO:
+        return Colors.red[800];
+      case Region.ARANCIONE:
+        return Colors.orange[800];
+      case Region.GIALLO:
+        return Colors.yellow[800];
+      default:
+        return Colors.transparent;
+    }
+  }
 }
 
 final regionValues = EnumValues({

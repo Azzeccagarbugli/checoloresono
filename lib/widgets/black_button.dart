@@ -2,6 +2,8 @@ import 'package:checoloresono/common/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
+import '../common/constants.dart';
+
 class BlackButton extends StatelessWidget {
   const BlackButton({
     Key key,
@@ -9,12 +11,16 @@ class BlackButton extends StatelessWidget {
     @required this.widget,
     @required this.iconData,
     this.color = Colors.black,
+    this.visibility = true,
+    this.border,
   }) : super(key: key);
 
   final Widget widget;
   final IconData iconData;
   final Function onPressed;
   final Color color;
+  final bool visibility;
+  final Border border;
 
   @override
   Widget build(BuildContext context) {
@@ -27,17 +33,21 @@ class BlackButton extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: kBorderRadius,
             color: color ?? Colors.black,
+            border: border ?? null,
           ),
           child: Stack(
             alignment: Alignment.center,
             children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: CircleAvatar(
-                  backgroundColor: Colors.white,
-                  child: Icon(
-                    iconData,
-                    color: color ?? Colors.black,
+              Visibility(
+                visible: visibility,
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    child: Icon(
+                      iconData,
+                      color: color ?? Colors.black,
+                    ),
                   ),
                 ),
               ),
@@ -45,12 +55,15 @@ class BlackButton extends StatelessWidget {
                 alignment: Alignment.center,
                 child: widget,
               ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Icon(
-                  Icons.lens,
-                  size: 12,
-                  color: Colors.white38,
+              Visibility(
+                visible: visibility,
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Icon(
+                    Icons.lens,
+                    size: 12,
+                    color: Colors.white38,
+                  ),
                 ),
               )
             ],
