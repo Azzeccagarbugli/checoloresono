@@ -49,7 +49,7 @@ class RegionCard extends StatelessWidget {
                 child: Icon(
                   Icons.lens,
                   size: 12,
-                  color: Colors.grey[300],
+                  color: _region.color.withOpacity(0.6),
                 ),
               ),
             ],
@@ -84,7 +84,7 @@ class RegionCard extends StatelessWidget {
                 ),
                 TextSpan(
                   text:
-                      ', si prega di rispettare le seguenti norme vigenti per questo determinato colore',
+                      ', si prega di rispettare le seguenti norme vigenti per questo determinata zona.',
                   style: TextStyle(
                     fontFamily: 'Computer Modern',
                     fontWeight: FontWeight.w200,
