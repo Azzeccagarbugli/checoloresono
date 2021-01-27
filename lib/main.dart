@@ -11,11 +11,13 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:sortedmap/sortedmap.dart';
+import 'package:url_strategy/url_strategy.dart';
 
 import 'models/region.dart';
 
 void main() async {
   await initializeDateFormatting('it');
+  setPathUrlStrategy();
   runApp(CheColoreSono());
 }
 
