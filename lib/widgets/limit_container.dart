@@ -15,7 +15,7 @@ class LimitContainer extends StatelessWidget {
     return Center(
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: kSpaceM),
-        constraints: BoxConstraints(maxWidth: kMaxWid),
+        constraints: const BoxConstraints(maxWidth: kMaxWid),
         child: _child,
       ),
     );

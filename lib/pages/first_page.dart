@@ -16,7 +16,7 @@ class FirstPage extends StatelessWidget {
   final Function _onPressed;
   final bool _toggleOpacity;
 
-  _launchURL() async {
+  Future<void> _launchURL() async {
     if (await canLaunch(kUrl)) {
       await launch(kUrl);
     } else {
@@ -34,7 +34,7 @@ class FirstPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Spacer(),
+            const Spacer(),
             SelectableText(
               'Che colore sono?',
               style: TextStyle(
@@ -92,7 +92,7 @@ class FirstPage extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: kSpaceM,
             ),
             BlackButton(
@@ -100,7 +100,7 @@ class FirstPage extends StatelessWidget {
               color: Colors.grey,
               widget: Text(
                 'Scarica autocertificazione'.toUpperCase(),
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 0.9,
@@ -111,14 +111,14 @@ class FirstPage extends StatelessWidget {
                 await _launchURL();
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: kSpaceS,
             ),
             BlackButton(
               iconData: Icons.flag_rounded,
               widget: Text(
                 'Seleziona la tua regione'.toUpperCase(),
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 0.9,
@@ -127,7 +127,7 @@ class FirstPage extends StatelessWidget {
               ),
               onPressed: _onPressed,
             ),
-            Spacer(),
+            const Spacer(),
             Padding(
               padding: const EdgeInsets.all(kSpaceM),
               child: SelectableText.rich(

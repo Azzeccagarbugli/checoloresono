@@ -15,7 +15,7 @@ import 'package:url_strategy/url_strategy.dart';
 
 import 'models/region.dart';
 
-void main() async {
+Future<void> main() async {
   await initializeDateFormatting('it');
   setPathUrlStrategy();
   runApp(CheColoreSono());
@@ -30,7 +30,7 @@ class CheColoreSono extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Computer Modern',
       ),
-      locale: Locale('it'),
+      locale: const Locale('it'),
       home: HomePage(),
     );
   }
@@ -43,7 +43,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
-  Color _defaultBackgroundColor = Colors.grey[200];
+  final Color _defaultBackgroundColor = Colors.grey[200];
   Color _backgroundColor;
 
   String _selectedRegion;
@@ -66,13 +66,13 @@ class _HomePageState extends State<HomePage>
   }
 
   Future<List<dynamic>> _buildFuture() async {
-    return await Future.wait([
+    return Future.wait([
       _buildRegion(),
       _thereIsARegionSaved(),
     ]);
   }
 
-  Future _future;
+  Future<List<dynamic>> _future;
 
   DateTime _now() => DateTime.now();
   String _formattedDate() => DateFormat.yMMMMEEEEd('it').format(_now());
@@ -101,20 +101,20 @@ class _HomePageState extends State<HomePage>
             Widget _child;
 
             if (snapshot.hasError) {
-              _child = Text(snapshot.error);
+              _child = Text(snapshot.error as String);
             }
 
             if (snapshot.connectionState == ConnectionState.waiting) {
-              _child = SpinKitPulse(
+              _child = const SpinKitPulse(
                 color: Colors.black,
               );
             } else {
-              Map<String, List<Region>> _listRegions = snapshot.data[0];
-              SavedRegion _thereIsARegionSaved = snapshot.data[1];
+              final Map<String, List<Region>> _listRegions =
+                  snapshot.data[0] as Map<String, List<Region>>;
+              final SavedRegion _thereIsARegionSaved =
+                  snapshot.data[1] as SavedRegion;
 
-              final PageController _controller = PageController(
-                initialPage: 0,
-              );
+              final PageController _controller = PageController();
 
               if (_thereIsARegionSaved.isSaved) {
                 _toggleOpacityThirdPage = true;
@@ -128,7 +128,7 @@ class _HomePageState extends State<HomePage>
                 duration: kDuration,
                 color: _backgroundColor,
                 child: PageView(
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   controller: _controller,
                   scrollDirection: Axis.vertical,
                   children: [
@@ -152,7 +152,7 @@ class _HomePageState extends State<HomePage>
                         setState(() {
                           _toggleOpacitySecondPage = !_toggleOpacitySecondPage;
 
-                          _selectedIndex = index;
+                          _selectedIndex = index as int;
                           _selectedRegion =
                               _listRegions.keys.elementAt(_selectedIndex);
 
@@ -195,8 +195,8 @@ class _HomePageState extends State<HomePage>
             }
 
             return AnimatedSwitcher(
-              child: _child,
               duration: kDuration,
+              child: _child,
             );
           },
         ),

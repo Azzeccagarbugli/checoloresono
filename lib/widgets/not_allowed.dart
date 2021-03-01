@@ -40,22 +40,22 @@ class NotAllowed extends StatelessWidget {
                   _titleParagraph.icon,
                   color: Colors.white,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: kSpaceS,
                 ),
                 SelectableText(
                   _titleParagraph.title.toUpperCase(),
                   maxLines: 1,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontFamily: 'Plex',
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
                     color: Colors.white,
                   ),
                 ),
-                Spacer(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: kSpaceS),
+                const Spacer(),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: kSpaceS),
                   child: Icon(
                     Icons.lens,
                     size: 12,

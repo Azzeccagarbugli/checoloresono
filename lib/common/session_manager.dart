@@ -5,14 +5,14 @@ class SessionManager {
   final String nameRegion = 'nameRegion';
   final String indexRegion = 'indexRegion';
 
-  Future<void> setFavoriteRegion(bool isFavorite) async {
+  Future<void> setFavoriteRegion({bool isFavorite}) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool(this.favoriteRegion, isFavorite);
+    prefs.setBool(favoriteRegion, isFavorite);
   }
 
   Future<bool> getFavoriteRegion() async {
     final SharedPreferences pref = await SharedPreferences.getInstance();
-    return pref.getBool(this.favoriteRegion) ?? false;
+    return pref.getBool(favoriteRegion) ?? false;
   }
 
   Future<void> setNameRegion(String nameRegion) async {
@@ -22,7 +22,7 @@ class SessionManager {
 
   Future<String> getNameRegion() async {
     final SharedPreferences pref = await SharedPreferences.getInstance();
-    return pref.getString(this.nameRegion) ?? null;
+    return pref.getString(nameRegion);
   }
 
   Future<void> setIndexRegion(int indexRegion) async {
@@ -32,7 +32,7 @@ class SessionManager {
 
   Future<int> getIndexRegion() async {
     final SharedPreferences pref = await SharedPreferences.getInstance();
-    return pref.getInt(this.indexRegion) ?? null;
+    return pref.getInt(indexRegion);
   }
 
   Future<void> clear() async {

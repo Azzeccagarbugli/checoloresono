@@ -51,7 +51,7 @@ class SecondPage extends StatelessWidget {
                             backgroundColor: Colors.black,
                             child: Text(
                               _regions.keys.elementAt(index)[0].toUpperCase(),
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.white,
                                 fontFamily: 'Plex',
                               ),
@@ -66,7 +66,7 @@ class SecondPage extends StatelessWidget {
                             children: [
                               Text(
                                 _regions.keys.elementAt(index),
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontFamily: 'Plex',
                                   color: Colors.black,
                                 ),

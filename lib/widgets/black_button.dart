@@ -27,13 +27,13 @@ class BlackButton extends StatelessWidget {
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
-        onTap: onPressed,
+        onTap: () => onPressed(),
         child: Container(
           padding: const EdgeInsets.all(kSpaceM),
           decoration: BoxDecoration(
             borderRadius: kBorderRadius,
             color: color ?? Colors.black,
-            border: border ?? null,
+            border: border,
           ),
           child: Stack(
             alignment: Alignment.center,
@@ -52,12 +52,11 @@ class BlackButton extends StatelessWidget {
                 ),
               ),
               Align(
-                alignment: Alignment.center,
                 child: widget,
               ),
               Visibility(
                 visible: visibility,
-                child: Align(
+                child: const Align(
                   alignment: Alignment.centerRight,
                   child: Icon(
                     Icons.lens,

@@ -45,31 +45,31 @@ class ThirdPage extends StatelessWidget {
         ),
         LateralInformation(
           region: _region,
-          titleParagraph: TitleParagraph.COPRIFUOCO,
+          titleParagraph: TitleParagraph.coprifuoco,
         ),
         LateralInformation(
           region: _region,
-          titleParagraph: TitleParagraph.SPOSTAMENTI,
+          titleParagraph: TitleParagraph.spostamenti,
         ),
         LateralInformation(
           region: _region,
-          titleParagraph: TitleParagraph.NEGOZI,
+          titleParagraph: TitleParagraph.negozi,
         ),
         LateralInformation(
           region: _region,
-          titleParagraph: TitleParagraph.BARERISTORAZIONE,
+          titleParagraph: TitleParagraph.bareristorazione,
         ),
         LateralInformation(
           region: _region,
-          titleParagraph: TitleParagraph.SERVIZIALLAPERSONA,
+          titleParagraph: TitleParagraph.serviziallapersona,
         ),
         LateralInformation(
           region: _region,
-          titleParagraph: TitleParagraph.SPORTS,
+          titleParagraph: TitleParagraph.sports,
         ),
         LateralInformation(
           region: _region,
-          titleParagraph: TitleParagraph.VISITAACASA,
+          titleParagraph: TitleParagraph.visitaacasa,
         ),
       ];
 
@@ -86,7 +86,6 @@ class ThirdPage extends StatelessWidget {
               floating: true,
               pinned: true,
               shape: RoundedRectangleBorder(borderRadius: kBorderRadius),
-              snap: false,
               collapsedHeight: 300,
               elevation: 0,
               backgroundColor: Colors.transparent,
@@ -107,7 +106,7 @@ class ThirdPage extends StatelessWidget {
                             onPressed: _onPressed,
                             widget: Text(
                               'Torna indietro'.toUpperCase(),
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
                                 letterSpacing: 0.9,
@@ -170,7 +169,7 @@ class ActionButton implements ListItem {
 
   final Region _region;
 
-  _launchURL() async {
+  Future<void> _launchURL() async {
     if (await canLaunch(kFaq)) {
       await launch(kFaq);
     } else {
@@ -193,7 +192,7 @@ class ActionButton implements ListItem {
         },
         widget: Text(
           'Visualizza le FAQ del governo'.toUpperCase(),
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
             letterSpacing: 0.9,

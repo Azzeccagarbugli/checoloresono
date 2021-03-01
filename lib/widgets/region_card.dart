@@ -41,9 +41,9 @@ class RegionCard extends StatelessWidget {
                   color: Colors.grey[800],
                 ),
               ),
-              Spacer(),
+              const Spacer(),
               Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   shape: BoxShape.circle,
                 ),
                 child: Icon(

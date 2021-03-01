@@ -1,31 +1,31 @@
 import 'package:flutter/material.dart';
 
 enum TitleParagraph {
-  COPRIFUOCO,
-  SPOSTAMENTI,
-  NEGOZI,
-  BARERISTORAZIONE,
-  SERVIZIALLAPERSONA,
-  SPORTS,
-  VISITAACASA,
+  coprifuoco,
+  spostamenti,
+  negozi,
+  bareristorazione,
+  serviziallapersona,
+  sports,
+  visitaacasa,
 }
 
 extension TitleParagraphExt on TitleParagraph {
   String get title {
     switch (this) {
-      case TitleParagraph.COPRIFUOCO:
+      case TitleParagraph.coprifuoco:
         return 'coprifuoco';
-      case TitleParagraph.SPOSTAMENTI:
+      case TitleParagraph.spostamenti:
         return 'spostamenti';
-      case TitleParagraph.NEGOZI:
+      case TitleParagraph.negozi:
         return 'negozi';
-      case TitleParagraph.BARERISTORAZIONE:
+      case TitleParagraph.bareristorazione:
         return 'bar e ristorazione';
-      case TitleParagraph.SERVIZIALLAPERSONA:
+      case TitleParagraph.serviziallapersona:
         return 'servizi alla persona';
-      case TitleParagraph.SPORTS:
+      case TitleParagraph.sports:
         return 'attività sportiva';
-      case TitleParagraph.VISITAACASA:
+      case TitleParagraph.visitaacasa:
         return 'visita a casa';
       default:
         return 'non specificato';
@@ -34,19 +34,19 @@ extension TitleParagraphExt on TitleParagraph {
 
   IconData get icon {
     switch (this) {
-      case TitleParagraph.COPRIFUOCO:
+      case TitleParagraph.coprifuoco:
         return Icons.shield;
-      case TitleParagraph.SPOSTAMENTI:
+      case TitleParagraph.spostamenti:
         return Icons.directions_rounded;
-      case TitleParagraph.NEGOZI:
+      case TitleParagraph.negozi:
         return Icons.shopping_bag_rounded;
-      case TitleParagraph.BARERISTORAZIONE:
+      case TitleParagraph.bareristorazione:
         return Icons.fastfood_rounded;
-      case TitleParagraph.SERVIZIALLAPERSONA:
+      case TitleParagraph.serviziallapersona:
         return Icons.family_restroom_rounded;
-      case TitleParagraph.SPORTS:
+      case TitleParagraph.sports:
         return Icons.pool_rounded;
-      case TitleParagraph.VISITAACASA:
+      case TitleParagraph.visitaacasa:
         return Icons.home_rounded;
       default:
         return Icons.lens;
