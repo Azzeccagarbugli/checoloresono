@@ -24,8 +24,9 @@ dev_dependencies:
     sdk: flutter
   integration_test:
     sdk: flutter
-flutter:
+  lint: ^1.3.0
 
+flutter:
   uses-material-design: true
 
   fonts:
