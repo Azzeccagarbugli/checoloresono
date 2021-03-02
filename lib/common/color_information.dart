@@ -10,6 +10,8 @@ class ColorInformation {
     this.titleParagraph,
   });
 
+  final String _error = 'Error';
+
   String check() {
     switch (titleParagraph) {
       case TitleParagraph.bareristorazione:
@@ -20,8 +22,10 @@ class ColorInformation {
             return "Sono consentite solo le attività di consegna al domicilio, senza alcuna limitazione, oltre al servizio d'asporto che si può effettuare solo però tra le ore 5 e le 22, cioè nel rispetto del coprifuoco. La prefettura di Verona ha dato indicazione che l'asporto in zona rossa sia possibile solo all'interno del proprio Comune.";
           case Region.giallo:
             return "I bar, ristoranti, pasticcerie, gelaterie, etc. possono riaprire ed effettuare il servizio al tavolo fino alle ore 18. Restano poi ovviamente consentiti il servizio d'asporto tra le ore 5 e le 22, così come il servizio di consegna a domicilio senza alcuna limitazione d'orario. Si può andare dunque nei locali dove si vuole all'interno della propria Regione, consumare seduti al tavolo fino alle 18 ed acquistare prodotti d'asporto tra le 5 e le 22, mentre è sempre possibile farsi consegnare prodotti a domicilio.";
+          case Region.bianco:
+            return "I bar, ristoranti, pasticcerie, gelaterie, etc. possono rimanere aperti fino alle 23:00.";
           default:
-            return 'Error';
+            return _error;
         }
         break;
       case TitleParagraph.coprifuoco:
@@ -32,8 +36,10 @@ class ColorInformation {
             return 'È confermato e sussiste sempre dalle ore 22 fino alle 5 del mattino seguente.';
           case Region.giallo:
             return 'Dalle ore 22 alle 5 del mattino dopo è vietato circolare in strada salvo che per lavoro, necessità o salute.';
+          case Region.bianco:
+            return 'Dalle ore 23:30 alle 5:00 del mattino dopo è vietato circolare in strada salvo che per lavoro, necessità o salute.';
           default:
-            return 'Error';
+            return _error;
         }
         break;
       case TitleParagraph.negozi:
@@ -43,9 +49,10 @@ class ColorInformation {
           case Region.rosso:
             return "Sono tutti chiusi salvo quelli indicati dall'allegato 23 del DPCM 3 dicembre, tra i quali oltre a supermercati, farmacie, tabacchi, edicole, vanno ricordati i vivai, i negozi di articoli sportivi e quelli di vestiti per bambini e, ancora, le librerie.";
           case Region.giallo:
+          case Region.bianco:
             return "Gli esercizi commerciali sono tutti aperti e raggiungibili da chiunque e ovunque all'interno della propria Regione.";
           default:
-            return 'Error';
+            return _error;
         }
         break;
       case TitleParagraph.serviziallapersona:
@@ -55,9 +62,10 @@ class ColorInformation {
           case Region.rosso:
             return 'Sono chiusi centri estetici e centri benessere, ma sono aperti barbieri e parrucchieri.';
           case Region.giallo:
+          case Region.bianco:
             return 'Sono aperti anche i centri estetici ed i centri benessere al pari di parrucchieri e barbieri.';
           default:
-            return 'Error';
+            return _error;
         }
         break;
       case TitleParagraph.sports:
@@ -68,8 +76,10 @@ class ColorInformation {
             return "L'attività motoria è possibile solo «in prossimità della propria abitazione», mentre l'attività sportiva è consentita «esclusivamente nell'ambito del territorio del proprio Comune, in forma individuale e all'aperto, mantenendo la distanza interpersonale di due metri». Chi pratica attività sportiva individuale che implichi in se stessa uno spostamento (corsa o bicicletta ad esempio), può anche attaversare il confine comunale e transitare in un altro Comune, purché lo spostamento resti finalizzato esclusivamente allo svolgimento dell'atttività sportiva individuale e si concluda poi nel Comune di partenza.";
           case Region.giallo:
             return "L'unica esplicita limitazione per lo svolgimento di tali attività è quella del rispetto degli orari di coprifuoco tra le ore 22 e le 5 del mattino dopo. Bisogna quindi fare attività motoria o sportiva dopo le 5 ed entro le 22, per la prima indossando la mascherina e mantenendo un metro di distanza dagli altri, per fare attività sportiva invece la distanza da tenere è di due metri ma non è obbligatoria la mascherina.";
+          case Region.bianco:
+            return "L'unica esplicita limitazione per lo svolgimento di tali attività è quella del rispetto degli orari di coprifuoco tra le ore 23:30 e le 5:00 del mattino dopo. Bisogna quindi fare attività motoria o sportiva dopo le 5:00 ed entro le 23:30, per la prima indossando la mascherina e mantenendo un metro di distanza dagli altri, per fare attività sportiva invece la distanza da tenere è di due metri ma non è obbligatoria la mascherina.";
           default:
-            return 'Error';
+            return _error;
         }
         break;
       case TitleParagraph.visitaacasa:
@@ -79,9 +89,11 @@ class ColorInformation {
           case Region.rosso:
             return 'Le visite in casa saranno consentite nel rispetto del coprifuoco e nel limite di due persone; non si conteggiano i figli minori di 14 anni e le persone disabili o non autosufficienti con loro conviventi.';
           case Region.giallo:
-            return "In zona gialla non vi è bisogno di alcuna deroga per fare visita a casa di parenti o amici, essendo libera la mobilità nell'intera propria Regione. Se i parenti o amici sono fuori Regione, non vi è però alcuna deroga che consenta di fare loro visita a casa. Dunque, dentro la propria Regione ci si può spostare in quanti si vuole ed andare a trovare chi si vuole nel rispetto solo degli orari di coprifuoco, ma non si può uscire dalla propria Regione per andare a trovare un parente o un amico, anche se questi abitino in un'altra Regione zona gialla.";
+            return "In zona gialla non vi è bisogno di alcuna deroga per fare visita a casa di parenti o amici, essendo libera la mobilità nell'intera propria Regione. Se i parenti o amici sono fuori Regione, non vi è però alcuna deroga che consenta di fare loro visita a casa. Dunque, dentro la propria Regione ci si può spostare in quanti si vuole ed andare a trovare chi si vuole nel rispetto solo degli orari di coprifuoco, ma non si può uscire dalla propria Regione per andare a trovare un parente o un amico, anche se questi abitino in un'altra Regione zona gialla o bianca.";
+          case Region.bianco:
+            return "In zona bianca non vi è bisogno di alcuna deroga per fare visita a casa di parenti o amici, essendo libera la mobilità nell'intera propria Regione. Se i parenti o amici sono fuori Regione, non vi è però alcuna deroga che consenta di fare loro visita a casa. Dunque, dentro la propria Regione ci si può spostare in quanti si vuole ed andare a trovare chi si vuole nel rispetto solo degli orari di coprifuoco, ma non si può uscire dalla propria Regione per andare a trovare un parente o un amico, anche se questi abitino in un'altra Regione zona gialla o bianca.";
           default:
-            return 'Error';
+            return _error;
         }
         break;
       case TitleParagraph.spostamenti:
@@ -92,8 +104,10 @@ class ColorInformation {
             return "Divieto di mobilità già all'interno del proprio Comune, salvo che per motivi di lavoro, necessità e salute. Non ci si può quindi spostare, salvo le medesime motivazioni, anche tra Comuni diversi o tra Regioni diverse.";
           case Region.giallo:
             return "Ci si può spostare liberamente all'interno dell'intera propria Regione, quindi anche tra Comuni diversi, senza necessità di presentare alcuna autocertificazione, sempre però nel rispetto degli orari di coprifuoco. Vige però anche in zona gialla dal 7 e fino al 15 gennaio 2021, come appena specificato, il divieto di uscire dalla propria Regione, salvo che per motivi di lavoro, necessità e salute.";
+          case Region.bianco:
+            return "Ci si può spostare liberamente all'interno dell'intera propria Regione, quindi anche tra Comuni diversi, senza necessità di presentare alcuna autocertificazione.";
           default:
-            return 'Error';
+            return _error;
         }
         break;
       default:

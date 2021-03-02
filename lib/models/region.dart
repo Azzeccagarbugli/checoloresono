@@ -17,6 +17,7 @@ enum Region {
   giallo,
   arancione,
   rosso,
+  bianco,
 }
 
 extension RegionExtension on Region {
@@ -28,6 +29,8 @@ extension RegionExtension on Region {
         return 'arancione';
       case Region.giallo:
         return 'giallo';
+      case Region.bianco:
+        return 'bianco';
       default:
         return null;
     }
@@ -41,6 +44,8 @@ extension RegionExtension on Region {
         return Colors.orange;
       case Region.giallo:
         return Colors.yellow[600];
+      case Region.bianco:
+        return Colors.grey[350];
       default:
         return Colors.transparent;
     }
@@ -54,6 +59,8 @@ extension RegionExtension on Region {
         return Colors.orange[800];
       case Region.giallo:
         return Colors.yellow[800];
+      case Region.bianco:
+        return Colors.grey[800];
       default:
         return Colors.transparent;
     }
@@ -64,6 +71,7 @@ final regionValues = EnumValues({
   'arancione': Region.arancione,
   'giallo': Region.giallo,
   'rosso': Region.rosso,
+  'bianco': Region.bianco,
 });
 
 class EnumValues<T> {
